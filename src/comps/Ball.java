@@ -2,26 +2,30 @@ package comps;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
+
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.net.URI;
 
 import JBreak.JBreak;
 
-import javax.swing.JRadioButton;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 @SuppressWarnings("serial")
-public class Ball extends JRadioButton implements Runnable {
+public class Ball extends JLabel implements Runnable {
 
 	// making a singleton to avoid waste! :D 
-	private int x=50, y=150;
+	private int x=50, y=150, width = 50, height = 60;
 	private double speed = 4;
 	private double xspeed=1, yspeed=1; 
 	private boolean up=false, right=true; 
 
 	public void move(Rectangle r){
-		Rectangle ballrect = this.getBounds();
 		if (JBreak.gameOver)
 			return;
+		Rectangle ballrect = this.getBounds();
+	
 		if (ballrect.intersects(r))
 		{  
 			up = !up; 
@@ -91,7 +95,7 @@ public class Ball extends JRadioButton implements Runnable {
 		}
 		x=tempx;
 		y=tempy;
-		this.setBounds(x, y, 23, 20);
+		this.setBounds(x, y, width, height);
 		this.revalidate();
 		this.repaint();
 
@@ -100,11 +104,15 @@ public class Ball extends JRadioButton implements Runnable {
 	public Ball(Insets insets, Dimension size){
 		this.setVisible(true);
 		this.setEnabled(false);
-		this.setSelected(true);
-		this.setBounds(x+insets.left, y+insets.top, 23, 20);
+		ImageIcon icon =new ImageIcon("images/ball.gif");
+		this.setIcon(icon);
+		//this.setSelected(true);
+		this.revalidate();
+		this.repaint();
+		this.setBounds(x+insets.left, y+insets.top, width, height);
 
 	}
-
+	
 	@Override
 	public void run() {
 		while (true){
