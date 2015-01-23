@@ -1,12 +1,8 @@
 package comps;
 
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.net.URI;
-import java.util.Set;
-import java.util.stream.*;
 
 import JBreak.JBreak;
 
@@ -69,37 +65,25 @@ public class Ball extends JRadioButton implements Runnable {
 			JBreak.endScreen.repaint();
 			return;
 		}
+		
 		//testing each brick at once to see if the ball collided with any of them. 
-		Set<Brick> brix = JBreak.brick.parallelStream().filter(brick ->  	
+		JBreak.brick.parallelStream().filter(brick ->  	
 		ballrect.getBounds().intersects(brick.getBounds()))						
-		.collect(Collectors.toSet());										
-
-		if (brix.size()>0){
-			brix.forEach(e -> {
-				e.setLocation(-50, -50); 
-				right=!right; 
-				up=!up;
-				y+=speed;
-				speed+=.5;
-				Paddle.speed+=.5;
-				JBreak.score++;
+		.forEach(e -> {						//for every ball that collided,
+				e.setLocation(-50, -50); 	//move it off screen.
+				right=!right; 				//flip the direction of the ball
+				up=!up;						//on both axis'
+				speed+=.5;					//increase the speed of the ball
+				Paddle.speed+=.5;			//increase the speed of the paddle
+				JBreak.score++;				//increment the score. 
 			});
 
 			if (JBreak.score>14) {
 				JBreak.endScreen.setText("You beat the game?!?! Enjoy your prize.");
 				JBreak.gameOver=true;
-				boolean start = Desktop.isDesktopSupported(); 
-				if (start) {
-					Desktop desk = Desktop.getDesktop();
-					try { 
-						URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-						Thread.sleep(3000);
-						desk.browse(uri);
-					}catch(Exception e){}
-				}
 				return;
 			}
-		}
+		
 		//JBreak.contentPane.getComponentAt(tempx, tempy).setLocation(-50, -50);
 
 		x=tempx;

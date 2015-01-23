@@ -93,7 +93,6 @@ public class JBreak extends JFrame {
 
 		endScreen.setBounds(5,25, 450,50);
 		endScreen.setText("Can you break all the bricks? Press space to see!");
-
 		contentPane.add(endScreen);
 	}
 }
