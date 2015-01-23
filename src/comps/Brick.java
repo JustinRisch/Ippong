@@ -10,6 +10,5 @@ public class Brick extends JLabel{
 	public Dimension size = new Dimension(28,15);
 	public Brick(){
 		this.setText("[==]");
-	
 	}
 }

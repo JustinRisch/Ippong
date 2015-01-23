@@ -12,7 +12,7 @@ public class Paddle extends JLabel{
 	Dimension size = new Dimension(44,20);
 	public Paddle(){
 		x=100;
-		y=250;
+		y=250; 
 		this.setText("(Ippon)");
 		this.setVisible(true);
 		this.setBounds(x, y, size.width, size.height);

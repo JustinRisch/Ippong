@@ -25,22 +25,25 @@ public class JBreak extends JFrame {
 	private static JBreak frame;
 	public static Paddle paddle = new Paddle();
 	public static Brick[][] brick = new Brick[5][3];
-	
+
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					frame = new JBreak();
-					frame.setVisible(true); 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		EventQueue.invokeLater(()-> {
+			try {
+				frame = new JBreak();
+				frame.setVisible(true); 
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 
 
 	}
-
+	interface ControlListener extends KeyListener{
+		//defaulting out the other methods so you can use lambdas 
+		default void keyTyped(KeyEvent e){}
+		default void keyReleased(KeyEvent e){}
+		
+	}
 	public JBreak() {
 		this.setResizable(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -50,48 +53,41 @@ public class JBreak extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		contentPane.add(ball);
-		this.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (!gameOver)
-					switch (e.getKeyCode()){
-					case KeyEvent.VK_RIGHT:
-						paddle.move(1);
-						break;
-					case KeyEvent.VK_LEFT:
-						paddle.move(-1);
-						break;
-					case KeyEvent.VK_SPACE:
-						endScreen.setText("");
-						try{
-							Thread.sleep(50);
-						} catch(Exception err){}
-
-						Thread t = new Thread(ball);
-						t.start();
-					}
-
-			}
-		});
+	
+		 
+		ControlListener kl = (e)->{  // WOO LAMBDAS!
+			if (!gameOver)
+				switch (e.getKeyCode()){
+				case KeyEvent.VK_RIGHT:
+					paddle.move(1);
+					break;
+				case KeyEvent.VK_LEFT:
+					paddle.move(-1);
+					break;
+				case KeyEvent.VK_SPACE:
+					endScreen.setText("");
+					try{
+						Thread.sleep(50);
+					} catch(Exception err){}
+					Thread t = new Thread(ball);
+					t.start();
+				}
+		};
+				
+		this.addKeyListener(kl);
 		contentPane.add(paddle);
 		for (int i = 0; i < brick.length; i++)
 			for (int j = 0; j<brick[i].length; j++)
 			{
 				brick[i][j] = new Brick();
 				brick[i][j].setBounds( i*90 + (45 * (j%2)), j*10, brick[i][j].size.width, brick[i][j].size.height);
-				
+
 				contentPane.add(brick[i][j]);
 			}
 
 		endScreen.setBounds(5,25, 450,50);
 		endScreen.setText("Can you break all the bricks? Press space to see!");
-		
+
 		contentPane.add(endScreen);
 	}
 }
