@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,13 +19,13 @@ public class JBreak extends JFrame {
 	public static boolean gameOver=false;
 	public static final JLabel endScreen = new JLabel();
 	public static int score=0;
-	private static JPanel contentPane = new JPanel();
+	public static JPanel contentPane = new JPanel();
 	private static Insets insets = contentPane.getInsets();
 	private static Dimension size = contentPane.getSize(); 
 	private static Ball ball = new Ball(insets, size);;
 	private static JBreak frame;
 	public static Paddle paddle = new Paddle();
-	public static Brick[][] brick = new Brick[5][3];
+	public static ArrayList<Brick> brick = new ArrayList<Brick>();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()-> {
@@ -42,7 +43,7 @@ public class JBreak extends JFrame {
 		//defaulting out the other methods so you can use lambdas 
 		default void keyTyped(KeyEvent e){}
 		default void keyReleased(KeyEvent e){}
-		
+
 	}
 	public JBreak() {
 		this.setResizable(false);
@@ -53,8 +54,8 @@ public class JBreak extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		contentPane.add(ball);
-	
-		 
+
+
 		ControlListener kl = (e)->{  // WOO LAMBDAS!
 			if (!gameOver)
 				switch (e.getKeyCode()){
@@ -73,17 +74,22 @@ public class JBreak extends JFrame {
 					t.start();
 				}
 		};
-				
+
 		this.addKeyListener(kl);
 		contentPane.add(paddle);
-		for (int i = 0; i < brick.length; i++)
-			for (int j = 0; j<brick[i].length; j++)
-			{
-				brick[i][j] = new Brick();
-				brick[i][j].setBounds( i*90 + (45 * (j%2)), j*10, brick[i][j].size.width, brick[i][j].size.height);
-
-				contentPane.add(brick[i][j]);
+		int j=0; int i=0;
+		for (int x=0; x< 15; x++) 
+		{
+			brick.add((new Brick()));
+			brick.get(x)
+			.setBounds( i*90 + (45 * (j%2)), j*10, brick.get(x).size.width,brick.get(x).size.height);
+			contentPane.add(brick.get(x));
+			i++;
+			if (i==5) { 
+				i%=5;
+				j++;
 			}
+		}
 
 		endScreen.setBounds(5,25, 450,50);
 		endScreen.setText("Can you break all the bricks? Press space to see!");

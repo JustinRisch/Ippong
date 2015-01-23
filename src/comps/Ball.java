@@ -5,8 +5,11 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.net.URI;
+import java.util.Set;
+import java.util.stream.*;
 
 import JBreak.JBreak;
+
 import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
@@ -42,11 +45,12 @@ public class Ball extends JRadioButton implements Runnable {
 			tempy=y-(int)(yspeed*speed);
 		else
 			tempy=y+(int)(yspeed*speed);
-		
+
+		//Testing collision
 		if (tempx<0 || tempx>427){
-			right=!right;
+			right=!right; 
 			if (right)
-				tempx=x+(int)(xspeed*speed);
+				tempx=x+(int)(xspeed*speed); //re-decide new direction.
 			else 
 				tempx=x-(int)(xspeed*speed);
 		}
@@ -56,7 +60,7 @@ public class Ball extends JRadioButton implements Runnable {
 				tempy=y-(int)(yspeed*speed);
 			else
 				tempy=y+(int)(yspeed*speed);
-			
+
 		} else if (tempy>250){
 			speed =0;
 			JBreak.gameOver=true;
@@ -65,38 +69,39 @@ public class Ball extends JRadioButton implements Runnable {
 			JBreak.endScreen.repaint();
 			return;
 		}
+		//testing each brick at once to see if the ball collided with any of them. 
+		Set<Brick> brix = JBreak.brick.parallelStream().filter(brick ->  	
+		ballrect.getBounds().intersects(brick.getBounds()))						
+		.collect(Collectors.toSet());										
 
-		for (Brick[] b : JBreak.brick)
-			for (Brick brick : b)
-			{
-				if (this.getBounds().intersects(brick.getBounds()))
-				{
-					right=!right; 
-					up=!up;
-					y+=10;
-					x+=5;
-					speed+=.5;
-					Paddle.speed+=.5;
-					//brick.setVisible(false);
-					brick.setLocation(-50, -50);
-					JBreak.score++;
-					if (JBreak.score>14) {
-						JBreak.endScreen.setText("You beat the game?!?! Enjoy your prize.");
-						JBreak.gameOver=true;
-						boolean start = Desktop.isDesktopSupported(); 
-						if (start) {
-							Desktop desk = Desktop.getDesktop();
-							try { 
-								URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-								Thread.sleep(3000);
-								desk.browse(uri);
-							}catch(Exception e){}
-						}
-						return;
-					}
+		if (brix.size()>0){
+			brix.forEach(e -> {
+				e.setLocation(-50, -50); 
+				right=!right; 
+				up=!up;
+				y+=speed;
+				speed+=.5;
+				Paddle.speed+=.5;
+				JBreak.score++;
+			});
+
+			if (JBreak.score>14) {
+				JBreak.endScreen.setText("You beat the game?!?! Enjoy your prize.");
+				JBreak.gameOver=true;
+				boolean start = Desktop.isDesktopSupported(); 
+				if (start) {
+					Desktop desk = Desktop.getDesktop();
+					try { 
+						URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+						Thread.sleep(3000);
+						desk.browse(uri);
+					}catch(Exception e){}
 				}
+				return;
 			}
-		
+		}
+		//JBreak.contentPane.getComponentAt(tempx, tempy).setLocation(-50, -50);
+
 		x=tempx;
 		y=tempy;
 		this.setBounds(x, y, width, height);
