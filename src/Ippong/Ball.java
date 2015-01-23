@@ -1,10 +1,8 @@
-package comps;
+package Ippong;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.Rectangle;
-
-import JBreak.JBreak;
 
 import javax.swing.JRadioButton;
 
@@ -15,21 +13,36 @@ public class Ball extends JRadioButton implements Runnable {
 	private double speed = 4;
 	private double xspeed=1, yspeed=1; 
 	private boolean up=false, right=true; 
+	// call this when you hit something. 
+	public void collide(Component e){
+		right=!right; 					//flip the direction of the ball
+		up=!up;							//on both axis'
+		if (e.getClass()==Brick.class){ //if it hit a brick...
+			e.setLocation(-50, -50);
+			speed+=.5;					//increase the speed of the ball
+			Paddle.speed+=.5;			//increase the speed of the paddle
+			Ippong.score++;				//increment the score. 
+		}
 
-	public void move(Rectangle r){
-		if (JBreak.gameOver)
+	}
+	public boolean isCollidingWith(Component e){
+		return this.getBounds().intersects(e.getBounds());
+	}
+	public void move(){
+		if (Ippong.gameOver)
 			return;
-		Rectangle ballrect = this.getBounds();
 
-		if (ballrect.intersects(r))
+		if (this.isCollidingWith(Ippong.paddle))
 		{  
 			up = !up; 
-			Rectangle temp = ballrect.intersection(r);
-			Double centerBall= temp.getCenterX(), centerPaddle = r.getCenterX(); 
+			Double centerBall= this.getBounds().getCenterX(),
+					centerPaddle = Ippong.paddle.getBounds().getCenterX(); 
+
 			if (centerBall > (centerPaddle))
 				right=true;
 			else 
 				right=false;
+
 		}
 		int tempx, tempy;
 		if (right)
@@ -59,32 +72,23 @@ public class Ball extends JRadioButton implements Runnable {
 
 		} else if (tempy>250){
 			speed =0;
-			JBreak.gameOver=true;
-			JBreak.endScreen.setText("Game Over! Your score was "+JBreak.score+"!");
-			JBreak.endScreen.revalidate();
-			JBreak.endScreen.repaint();
+			Ippong.gameOver=true;
+			Ippong.endScreen.setText("Game Over! Your score was "+Ippong.score+"!");
+			Ippong.endScreen.revalidate();
+			Ippong.endScreen.repaint();
 			return;
 		}
-		
-		//testing each brick at once to see if the ball collided with any of them. 
-		JBreak.brick.parallelStream().filter(brick ->  	
-		ballrect.getBounds().intersects(brick.getBounds()))						
-		.forEach(e -> {						//for every ball that collided,
-				e.setLocation(-50, -50); 	//move it off screen.
-				right=!right; 				//flip the direction of the ball
-				up=!up;						//on both axis'
-				speed+=.5;					//increase the speed of the ball
-				Paddle.speed+=.5;			//increase the speed of the paddle
-				JBreak.score++;				//increment the score. 
-			});
 
-			if (JBreak.score>14) {
-				JBreak.endScreen.setText("You beat the game?!?! Enjoy your prize.");
-				JBreak.gameOver=true;
-				return;
-			}
-		
-		//JBreak.contentPane.getComponentAt(tempx, tempy).setLocation(-50, -50);
+		//testing each brick at once to see if the ball collided with any of them. 
+		Ippong.brick.parallelStream().filter(brick -> this.isCollidingWith(brick))						
+		.forEach(e -> collide(e)); 	//for each that collided, 
+										//call the corresponding code
+
+		if (Ippong.score>14) {
+			Ippong.endScreen.setText("You beat the game?!?! Enjoy your prize.");
+			Ippong.gameOver=true;
+			return;
+		}
 
 		x=tempx;
 		y=tempy;
@@ -108,7 +112,7 @@ public class Ball extends JRadioButton implements Runnable {
 	public void run() {
 		while (true){
 			try{
-				this.move(JBreak.paddle.getBounds());
+				this.move();
 				Thread.sleep(60);
 			} catch(Exception e){}
 		}

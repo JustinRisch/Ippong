@@ -1,4 +1,4 @@
-package comps;
+package Ippong;
 
 import java.awt.Dimension;
 

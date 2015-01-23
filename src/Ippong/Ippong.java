@@ -1,4 +1,4 @@
-package JBreak;
+package Ippong;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Insets;
@@ -11,11 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import comps.*;
-
 
 @SuppressWarnings("serial")
-public class JBreak extends JFrame {
+public class Ippong extends JFrame {
 	public static boolean gameOver=false;
 	public static final JLabel endScreen = new JLabel();
 	public static int score=0;
@@ -23,14 +21,14 @@ public class JBreak extends JFrame {
 	private static Insets insets = contentPane.getInsets();
 	private static Dimension size = contentPane.getSize(); 
 	private static Ball ball = new Ball(insets, size);;
-	private static JBreak frame;
+	private static Ippong frame;
 	public static Paddle paddle = new Paddle();
 	public static ArrayList<Brick> brick = new ArrayList<Brick>();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()-> {
 			try {
-				frame = new JBreak();
+				frame = new Ippong();
 				frame.setVisible(true); 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -45,7 +43,7 @@ public class JBreak extends JFrame {
 		default void keyReleased(KeyEvent e){}
 
 	}
-	public JBreak() {
+	public Ippong() {
 		this.setResizable(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
