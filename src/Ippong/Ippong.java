@@ -23,7 +23,7 @@ public class Ippong extends JFrame {
 	private static Ball ball = new Ball(insets, size);;
 	private static Ippong frame;
 	public static Paddle paddle = new Paddle();
-	public static ArrayList<Brick> brick = new ArrayList<Brick>();
+	public static ArrayList<Brick> bricks = new ArrayList<Brick>();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()-> {
@@ -78,10 +78,10 @@ public class Ippong extends JFrame {
 		int j=0; int i=0;
 		for (int x=0; x< 15; x++) 
 		{
-			brick.add((new Brick()));
-			brick.get(x)
-			.setBounds( i*90 + (45 * (j%2)), j*10, brick.get(x).size.width,brick.get(x).size.height);
-			contentPane.add(brick.get(x));
+			bricks.add((new Brick()));
+			bricks.get(x)
+			.setBounds( i*90 + (45 * (j%2)), j*10, bricks.get(x).size.width,bricks.get(x).size.height);
+			contentPane.add(bricks.get(x));
 			i++;
 			if (i==5) { 
 				i%=5;

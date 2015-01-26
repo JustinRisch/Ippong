@@ -11,17 +11,22 @@ public class Ball extends JRadioButton implements Runnable {
 
 	private int x=50, y=150, width = 23, height = 20;
 	private double speed = 4;
-	private double xspeed=1, yspeed=1; 
-	private boolean up=false, right=true; 
+	private int up=-1, right=-1; 
 	// call this when you hit something. 
 	public void collide(Component e){
-		right=!right; 					//flip the direction of the ball
-		up=!up;							//on both axis'
+		up*=-1;							// bounce the ball
+		Double centerBall= this.getBounds().getCenterX(),
+				centerE = e.getBounds().getCenterX(); 
+		if (centerBall > centerE)
+			right=1;
+		else 
+			right=-1;
 		if (e.getClass()==Brick.class){ //if it hit a brick...
 			e.setLocation(-50, -50);
 			speed+=.5;					//increase the speed of the ball
 			Paddle.speed+=.5;			//increase the speed of the paddle
 			Ippong.score++;				//increment the score. 
+
 		}
 
 	}
@@ -33,56 +38,35 @@ public class Ball extends JRadioButton implements Runnable {
 			return;
 
 		if (this.isCollidingWith(Ippong.paddle))
-		{  
-			up = !up; 
-			Double centerBall= this.getBounds().getCenterX(),
-					centerPaddle = Ippong.paddle.getBounds().getCenterX(); 
+			collide(Ippong.paddle);
 
-			if (centerBall > (centerPaddle))
-				right=true;
-			else 
-				right=false;
-
-		}
 		int tempx, tempy;
-		if (right)
-			tempx=x+(int)(xspeed*speed);
-		else 
-			tempx=x-(int)(xspeed*speed);
+		tempx=x+(int)(speed*right); 
+		tempy=y-(int)(speed*up);
 
-		if (up)
-			tempy=y-(int)(yspeed*speed);
-		else
-			tempy=y+(int)(yspeed*speed);
 
-		//Testing collision
+		//Seeing if it's leaving the playing field
 		if (tempx<0 || tempx>427){
-			right=!right; 
-			if (right)
-				tempx=x+(int)(xspeed*speed); //re-decide new direction.
-			else 
-				tempx=x-(int)(xspeed*speed);
+			right*=-1; //flip direction
+			tempx=x+(int)(speed*right);
 		}
 		if (tempy<0) {
-			up=!up;
-			if (up)
-				tempy=y-(int)(yspeed*speed);
-			else
-				tempy=y+(int)(yspeed*speed);
+			up*=-1;
+			tempy=y+(int)(speed*up);
 
 		} else if (tempy>250){
-			speed =0;
+			speed=0;
 			Ippong.gameOver=true;
 			Ippong.endScreen.setText("Game Over! Your score was "+Ippong.score+"!");
 			Ippong.endScreen.revalidate();
 			Ippong.endScreen.repaint();
 			return;
 		}
-
+		//COLLISION CODE HERE 
 		//testing each brick at once to see if the ball collided with any of them. 
-		Ippong.brick.parallelStream().filter(brick -> this.isCollidingWith(brick))						
-		.forEach(e -> collide(e)); 	//for each that collided, 
-										//call the corresponding code
+		Ippong.bricks.parallelStream().filter(brick -> this.isCollidingWith(brick))						
+		.forEach(e -> collide(e)); 		//for each that collided, 
+		//call the corresponding code
 
 		if (Ippong.score>14) {
 			Ippong.endScreen.setText("You beat the game?!?! Enjoy your prize.");
