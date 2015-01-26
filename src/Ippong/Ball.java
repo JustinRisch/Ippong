@@ -53,11 +53,10 @@ public class Ball extends JRadioButton implements Runnable {
 		if (tempy<0) {
 			up*=-1;
 			tempy=y+(int)(speed*up);
-
 		} else if (tempy>250){
 			speed=0;
 			Ippong.gameOver=true;
-			Ippong.endScreen.setText("Game Over! Your score was "+Ippong.score+"!");
+			Ippong.endScreen.setText("Game Over! Your score was "+Ippong.score+"!\nPress enter to play again!");
 			Ippong.endScreen.revalidate();
 			Ippong.endScreen.repaint();
 			return;

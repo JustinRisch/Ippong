@@ -17,19 +17,39 @@ public class Ippong extends JFrame {
 	public static boolean gameOver=false;
 	public static final JLabel endScreen = new JLabel();
 	public static int score=0;
-	public static JPanel contentPane = new JPanel();
-	private static Insets insets = contentPane.getInsets();
-	private static Dimension size = contentPane.getSize(); 
-	private static Ball ball = new Ball(insets, size);;
+	public static JPanel contentPane;
+	private static Insets insets;
+	private static Dimension size;
+	private static Ball ball;
 	private static Ippong frame;
-	public static Paddle paddle = new Paddle();
-	public static ArrayList<Brick> bricks = new ArrayList<Brick>();
+	public static Paddle paddle;
+	public static ArrayList<Brick> bricks;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()-> {
 			try {
+				contentPane=new JPanel();
+				insets= contentPane.getInsets();
+				size = contentPane.getSize();
+				paddle = new Paddle();
+				bricks = new ArrayList<Brick>();
+				ball = new Ball(insets, size);
 				frame = new Ippong();
 				frame.setVisible(true); 
+				ControlListener c2 = (e)->{
+					switch (e.getKeyCode()){
+					case KeyEvent.VK_ENTER:
+						if (!gameOver)
+							break;
+						gameOver=false;
+						frame.setVisible(false);
+						frame.removeAll();
+						frame=null;
+						System.gc();
+						Ippong.main("".split(""));
+						break;
+					}};
+				frame.addKeyListener(c2);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
