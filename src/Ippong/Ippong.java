@@ -73,7 +73,6 @@ public class Ippong extends JFrame {
 		setContentPane(contentPane);
 		contentPane.add(ball);
 
-
 		ControlListener kl = (e)->{  // WOO LAMBDAS!
 			if (!gameOver)
 				switch (e.getKeyCode()){

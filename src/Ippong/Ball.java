@@ -17,10 +17,11 @@ public class Ball extends JRadioButton implements Runnable {
 		up*=-1;							// bounce the ball
 		Double centerBall= this.getBounds().getCenterX(),
 				centerE = e.getBounds().getCenterX(); 
-		if (centerBall > centerE)
+		if (centerBall > centerE) { 
 			right=1;
-		else 
+		} else {
 			right=-1;
+		}
 		if (e.getClass()==Brick.class){ //if it hit a brick...
 			e.setLocation(-50, -50);
 			speed+=.5;					//increase the speed of the ball
@@ -34,11 +35,12 @@ public class Ball extends JRadioButton implements Runnable {
 		return this.getBounds().intersects(e.getBounds());
 	}
 	public void move(){
-		if (Ippong.gameOver)
+		if (Ippong.gameOver) {
 			return;
-
-		if (this.isCollidingWith(Ippong.paddle))
+		} 
+		if (this.isCollidingWith(Ippong.paddle)) {
 			collide(Ippong.paddle);
+		}
 
 		int tempx, tempy;
 		tempx=x+(int)(speed*right); 
@@ -64,8 +66,8 @@ public class Ball extends JRadioButton implements Runnable {
 		//COLLISION CODE HERE 
 		//testing each brick at once to see if the ball collided with any of them. 
 		Ippong.bricks.parallelStream().filter(brick -> this.isCollidingWith(brick))						
-		.forEach(e -> collide(e)); 		//for each that collided, 
-		//call the corresponding code
+		.forEach(e -> collide(e)); 		/*for each that collided, 
+											call the corresponding code*/
 
 		if (Ippong.score>14) {
 			Ippong.endScreen.setText("You beat the game?!?! Enjoy your prize.");
