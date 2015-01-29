@@ -39,22 +39,7 @@ public class Ippong extends JFrame {
 		EventQueue.invokeLater(()-> {
 			try {
 				frame = new Ippong();
-				frame.setVisible(true); 
-				ControlListener c2 = (e)->{
-					switch (e.getKeyCode()){
-					case KeyEvent.VK_ENTER:
-						if (!gameOver)
-							break;
-						gameOver=false;
-						frame.setVisible(false);
-						frame.removeAll();
-						frame=null;
-						score=0;
-						System.gc();
-						Ippong.main("".split(""));
-						break;
-					}};
-					frame.addKeyListener(c2);
+				frame.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

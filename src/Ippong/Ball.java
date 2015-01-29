@@ -11,7 +11,7 @@ public class Ball extends JRadioButton implements Runnable {
 
 	private int x=50, y=150, width = 33, height = 20;
 	private double speed = 4;
-	private double up=-1, right=1; 
+	private double up=1, right=1; 
 	// call this when you hit something. 
 
 	public void hitWall(){
@@ -37,7 +37,7 @@ public class Ball extends JRadioButton implements Runnable {
 		if (e.getClass()==Brick.class){ //if it hit a brick...
 			e.setLocation(-50, -50);
 			speed+=.5;					//increase the speed of the ball
-			Paddle.speed+=.5;			//increase the speed of the paddle
+			Ippong.paddle.speed+=.5;	//increase the speed of the paddle
 			Ippong.score++;				//increment the score. 
 
 		}
@@ -60,9 +60,8 @@ public class Ball extends JRadioButton implements Runnable {
 		//right*=-1; //flip direction
 
 		if (y>265){
-			speed=0;
 			Ippong.gameOver=true;
-			Ippong.endScreen.setText("Game Over! Your score was "+Ippong.score+"!\nPress enter to play again!");
+			Ippong.endScreen.setText("Game Over! Your score was "+Ippong.score+"!");
 			Ippong.endScreen.revalidate();
 			Ippong.endScreen.repaint();
 			return;
@@ -86,6 +85,7 @@ public class Ball extends JRadioButton implements Runnable {
 	}
 
 	public Ball(Insets insets, Dimension size){
+		x=50; y=150;
 		this.setVisible(true);
 		this.setEnabled(false);
 		this.setSelected(true);
