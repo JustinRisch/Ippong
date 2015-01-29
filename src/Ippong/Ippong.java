@@ -6,9 +6,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 
@@ -19,11 +24,18 @@ public class Ippong extends JFrame {
 	public static int score=0;
 	private static Insets insets;
 	private static Dimension size;
-	private static Ippong frame;
+	public static Ippong frame;
 	public static Paddle paddle;
 	public static ArrayList<Brick> bricks;
+	public static JTextArea jta;
+	public static JMenuBar menubar; 
+	public JPanel contentPane;
 
+	public JPanel getContentPane(){
+		return contentPane;
+	}
 	public static void main(String[] args) {
+
 		EventQueue.invokeLater(()-> {
 			try {
 				frame = new Ippong();
@@ -57,21 +69,54 @@ public class Ippong extends JFrame {
 
 	}
 	public Ippong() {
-		JPanel contentPane=new JPanel();
+		contentPane=new JPanel();
+
 		insets= contentPane.getInsets();
 		size = contentPane.getSize();
 		paddle = new Paddle();
 		bricks = new ArrayList<Brick>();
+		jta = new JTextArea();
+		jta.setBounds(0, 15, 450, 315);
+		jta.setVisible(false);
+
 		Ball ball = new Ball(insets, size);
 		this.setResizable(false);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(15, 5, 5, 5));
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(90, 90, 450, 315);
+
+		menubar = new JMenuBar();
+		JMenu menu = new JMenu();
+		menu.setText("Paddles");
+		JMenuItem item = new JMenuItem("King of Java");
+		item.addActionListener((e)->{
+			paddle.setText("");
+			ImageIcon icon = new ImageIcon("images/kingofjava.png");
+			icon.getIconWidth();
+			paddle.setBounds(paddle.getX(), paddle.getY(), icon.getIconWidth(), paddle.getHeight());
+			paddle.setIcon(icon);
+			paddle.revalidate();
+			paddle.repaint();
+		});
+		menu.add(item);
+		item=new JMenuItem("(Ippon)");
+		item.addActionListener((e)->{
+			contentPane.remove(paddle);
+			paddle=new Paddle();
+			contentPane.add(paddle);
+			contentPane.revalidate();
+			contentPane.repaint();
+		});
+		menu.add(item);
+		menubar.add(menu);
+		menubar.setBounds(0, 0, 450, 15);
 		this.setTitle("Play Ippong! Try to break all the blocks.");
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
+		contentPane.add(jta);
 		contentPane.add(ball);
-
+		contentPane.add(menubar);
 		ControlListener kl = (e)->{  // WOO LAMBDAS!
 			if (!gameOver)
 				switch (e.getKeyCode()){
@@ -98,7 +143,7 @@ public class Ippong extends JFrame {
 		{
 			bricks.add((new Brick()));
 			bricks.get(x)
-			.setBounds( i*90 + (45 * (j%2)), j*10, bricks.get(x).size.width,bricks.get(x).size.height);
+			.setBounds( i*90 + (45 * (j%2)), j*10+15, bricks.get(x).size.width,bricks.get(x).size.height);
 			contentPane.add(bricks.get(x));
 			i++;
 			if (i==5) { 
@@ -107,7 +152,7 @@ public class Ippong extends JFrame {
 			}
 		}
 
-		endScreen.setBounds(5,25, 450,50);
+		endScreen.setBounds(5,40, 450,50);
 		endScreen.setText("Can you break all the bricks? Press space to see!");
 		contentPane.add(endScreen);
 	}

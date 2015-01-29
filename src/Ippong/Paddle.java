@@ -1,7 +1,5 @@
 package Ippong;
 
-import java.awt.Dimension;
-
 import javax.swing.JLabel;
 
 
@@ -15,20 +13,20 @@ public class Paddle extends JLabel{
 	public int getY() {
 		return y;
 	}
-	Dimension size = new Dimension(44,20);
+
 	public Paddle(){
 		x=100;
-		y=250; 
+		y=265; 
 		this.setText("(Ippon)");
 		this.setVisible(true);
-		this.setBounds(x, y, size.width, size.height);
+		this.setBounds(x, y, 44, 20);
 
 	}
 	public void move(double i){
 		double temp = x+(speed*i);
-		if (temp>-5 && temp < 450-size.width) {
+		if (temp>-5 && temp < 450-this.getWidth()) {
 			x=(int)temp;
-			this.setBounds(x, y, size.width, size.height);
+			this.setBounds(x, y, this.getWidth(),this.getHeight());
 			this.revalidate();
 			this.repaint();
 		}

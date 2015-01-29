@@ -9,15 +9,31 @@ import javax.swing.JRadioButton;
 @SuppressWarnings("serial")
 public class Ball extends JRadioButton implements Runnable {
 
-	private int x=50, y=150, width = 23, height = 20;
+	private int x=50, y=150, width = 33, height = 20;
 	private double speed = 4;
-	private double up=-1, right=-1; 
+	private double up=-1, right=1; 
 	// call this when you hit something. 
+
+	public void hitWall(){
+
+		double width = this.getWidth()-(this.getBounds().intersection(Ippong.jta.getBounds())).getWidth();
+		double height = this.getHeight()-(this.getBounds().intersection(Ippong.jta.getBounds())).getHeight();
+
+		if (width>0) { 
+			right*=-1;
+		}
+		if (height > 0) {
+			up*=-1;
+		}
+
+	}
+	
 	public void collide(Component e){
-		up*=-1;							// bounce the ball
+		// bounce the ball
 		double interX = this.getBounds().getCenterX()-e.getBounds().getMinX();
 		double paddleX=e.getBounds().getWidth()/2; 
 		right = (interX/paddleX) - 1; 
+		up *=-1;
 		if (e.getClass()==Brick.class){ //if it hit a brick...
 			e.setLocation(-50, -50);
 			speed+=.5;					//increase the speed of the ball
@@ -37,21 +53,13 @@ public class Ball extends JRadioButton implements Runnable {
 		if (this.isCollidingWith(Ippong.paddle)) {
 			collide(Ippong.paddle);	
 		}
-
-		int tempx, tempy;
-		tempx=x+(int)(speed*right); 
-		tempy=y-(int)(speed*up);
-
-
 		//Seeing if it's leaving the playing field
-		if (tempx<0 || tempx>427){
-			right*=-1; //flip direction
-			tempx=x+(int)(speed*right);
-		}
-		if (tempy<0) {
-			up*=-1;
-			tempy=y+(int)(speed*up);
-		} else if (tempy>250){
+		hitWall();//check to see if we hit the wall. 
+		x=x+(int)(speed*right);
+		y=y+(int)(speed*up);
+		//right*=-1; //flip direction
+
+		if (y>265){
 			speed=0;
 			Ippong.gameOver=true;
 			Ippong.endScreen.setText("Game Over! Your score was "+Ippong.score+"!\nPress enter to play again!");
@@ -71,8 +79,6 @@ public class Ball extends JRadioButton implements Runnable {
 			return;
 		}
 
-		x=tempx;
-		y=tempy;
 		this.setBounds(x, y, width, height);
 		this.revalidate();
 		this.repaint();
