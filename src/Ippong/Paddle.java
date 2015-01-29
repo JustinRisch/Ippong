@@ -7,8 +7,14 @@ import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
 public class Paddle extends JLabel{
-	public static double speed = 12; 
+	public static double speed = 15; 
 	private int x, y;
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
 	Dimension size = new Dimension(44,20);
 	public Paddle(){
 		x=100;

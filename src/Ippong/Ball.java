@@ -11,17 +11,13 @@ public class Ball extends JRadioButton implements Runnable {
 
 	private int x=50, y=150, width = 23, height = 20;
 	private double speed = 4;
-	private int up=-1, right=-1; 
+	private double up=-1, right=-1; 
 	// call this when you hit something. 
 	public void collide(Component e){
 		up*=-1;							// bounce the ball
-		Double centerBall= this.getBounds().getCenterX(),
-				centerE = e.getBounds().getCenterX(); 
-		if (centerBall > centerE) { 
-			right=1;
-		} else {
-			right=-1;
-		}
+		double interX = this.getBounds().getCenterX()-e.getBounds().getMinX();
+		double paddleX=e.getBounds().getWidth()/2; 
+		right = (interX/paddleX) - 1; 
 		if (e.getClass()==Brick.class){ //if it hit a brick...
 			e.setLocation(-50, -50);
 			speed+=.5;					//increase the speed of the ball
@@ -39,7 +35,7 @@ public class Ball extends JRadioButton implements Runnable {
 			return;
 		} 
 		if (this.isCollidingWith(Ippong.paddle)) {
-			collide(Ippong.paddle);
+			collide(Ippong.paddle);	
 		}
 
 		int tempx, tempy;
@@ -70,7 +66,7 @@ public class Ball extends JRadioButton implements Runnable {
 											call the corresponding code*/
 
 		if (Ippong.score>14) {
-			Ippong.endScreen.setText("You beat the game?!?! Enjoy your prize.");
+			Ippong.endScreen.setText("You beat the game?!?! Bet you can't do it again... hit enter.");
 			Ippong.gameOver=true;
 			return;
 		}

@@ -17,10 +17,8 @@ public class Ippong extends JFrame {
 	public static boolean gameOver=false;
 	public static final JLabel endScreen = new JLabel();
 	public static int score=0;
-	public static JPanel contentPane;
 	private static Insets insets;
 	private static Dimension size;
-	private static Ball ball;
 	private static Ippong frame;
 	public static Paddle paddle;
 	public static ArrayList<Brick> bricks;
@@ -28,12 +26,6 @@ public class Ippong extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()-> {
 			try {
-				contentPane=new JPanel();
-				insets= contentPane.getInsets();
-				size = contentPane.getSize();
-				paddle = new Paddle();
-				bricks = new ArrayList<Brick>();
-				ball = new Ball(insets, size);
 				frame = new Ippong();
 				frame.setVisible(true); 
 				ControlListener c2 = (e)->{
@@ -45,11 +37,12 @@ public class Ippong extends JFrame {
 						frame.setVisible(false);
 						frame.removeAll();
 						frame=null;
+						score=0;
 						System.gc();
 						Ippong.main("".split(""));
 						break;
 					}};
-				frame.addKeyListener(c2);
+					frame.addKeyListener(c2);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -64,6 +57,12 @@ public class Ippong extends JFrame {
 
 	}
 	public Ippong() {
+		JPanel contentPane=new JPanel();
+		insets= contentPane.getInsets();
+		size = contentPane.getSize();
+		paddle = new Paddle();
+		bricks = new ArrayList<Brick>();
+		Ball ball = new Ball(insets, size);
 		this.setResizable(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
