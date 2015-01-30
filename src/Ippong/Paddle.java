@@ -22,13 +22,17 @@ public class Paddle extends JLabel{
 		this.setBounds(x, y, 44, 20);
 
 	}
+	public double hitWall(){
+		return this.getWidth()-(this.getBounds().intersection(Ippong.jta.getBounds())).getWidth();
+	}
 	public void move(double i){
 		double temp = x+(speed*i);
-		if (temp>-5 && temp < 450-this.getWidth()) {
-			x=(int)temp;
-			this.setBounds(x, y, this.getWidth(),this.getHeight());
-			this.revalidate();
-			this.repaint();
-		}
+		x=(int)temp;
+		this.setBounds(x, y, this.getWidth(),this.getHeight());
+		double length;
+		if ((length = hitWall())>0)
+			x=x+(int)(length*-i);
+		this.revalidate();
+		this.repaint();
 	}
 }

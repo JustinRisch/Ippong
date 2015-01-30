@@ -10,15 +10,13 @@ import javax.swing.JRadioButton;
 public class Ball extends JRadioButton implements Runnable {
 
 	private int x=50, y=150, width = 33, height = 20;
-	private double speed = 4;
+	private double speed = 2;
 	private double up=1, right=1; 
 	// call this when you hit something. 
-
 	public void hitWall(){
 
 		double width = this.getWidth()-(this.getBounds().intersection(Ippong.jta.getBounds())).getWidth();
 		double height = this.getHeight()-(this.getBounds().intersection(Ippong.jta.getBounds())).getHeight();
-
 		if (width>0) { 
 			right*=-1;
 		}
@@ -73,7 +71,7 @@ public class Ball extends JRadioButton implements Runnable {
 											call the corresponding code*/
 
 		if (Ippong.score>14) {
-			Ippong.endScreen.setText("You beat the game?!?! Bet you can't do it again... hit enter.");
+			Ippong.endScreen.setText("You beat the game?!?! Bet you can't do it again.");
 			Ippong.gameOver=true;
 			return;
 		}
@@ -100,7 +98,7 @@ public class Ball extends JRadioButton implements Runnable {
 		while (true){
 			try{
 				this.move();
-				Thread.sleep(60);
+				Thread.sleep(30);
 			} catch(Exception e){}
 		}
 
