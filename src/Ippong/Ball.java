@@ -9,8 +9,8 @@ import javax.swing.JRadioButton;
 @SuppressWarnings("serial")
 public class Ball extends JRadioButton implements Runnable {
 
-	private int x=50, y=150, width = 33, height = 20;
-	private double speed = 2;
+	private int x=50, y=150, width = 22, height = 20;
+	private double speed = 3;
 	private double up=1, right=1; 
 	// call this when you hit something. 
 	public void hitWall(){
@@ -34,8 +34,8 @@ public class Ball extends JRadioButton implements Runnable {
 		up *=-1;
 		if (e.getClass()==Brick.class){ //if it hit a brick...
 			e.setLocation(-50, -50);
-			speed+=.5;					//increase the speed of the ball
-			Ippong.paddle.speed+=.5;	//increase the speed of the paddle
+			speed+=.25;					//increase the speed of the ball
+			Ippong.paddle.speed+=.25;	//increase the speed of the paddle
 			Ippong.score++;				//increment the score. 
 
 		}
@@ -76,7 +76,7 @@ public class Ball extends JRadioButton implements Runnable {
 			return;
 		}
 
-		this.setBounds(x, y, width, height);
+		this.setBounds(x, y, this.getWidth(), this.getHeight());
 		this.revalidate();
 		this.repaint();
 

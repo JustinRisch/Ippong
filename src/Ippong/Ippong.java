@@ -67,7 +67,7 @@ public class Ippong extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(90, 90, 450, 315);
 
-		menubar = new Menu(paddle, contentPane);
+		menubar = new Menu(ball, bricks, paddle, contentPane);
 		
 		this.setTitle("Play Ippong! Try to break all the blocks.");
 		contentPane.setLayout(null);
