@@ -25,11 +25,7 @@ public class Ippong extends JFrame {
 	public static ArrayList<Brick> bricks;
 	public static JTextArea jta;
 	public static Menu menubar; 
-	public JPanel contentPane;
-
-	public JPanel getContentPane(){
-		return contentPane;
-	}
+	public static JPanel contentPane;
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(()-> {
@@ -99,9 +95,7 @@ public class Ippong extends JFrame {
 		int j=0; int i=0;
 		for (int x=0; x< 15; x++) 
 		{
-			bricks.add((new Brick()));
-			bricks.get(x)
-			.setBounds( i*90 + (45 * (j%2)), j*10+15, bricks.get(x).size.width,bricks.get(x).size.height);
+			bricks.add((new Brick( i*90 + (45 * (j%2)), j*10+15, 28,18)));
 			contentPane.add(bricks.get(x));
 			i++;
 			if (i==5) { 

@@ -38,7 +38,7 @@ public class Menu extends JMenuBar {
 			ball.setIcon(null);
 			paddle.setIcon(null);
 			paddle.setText("(Ippon)");
-			paddle.setBounds(paddle.getX(), paddle.getY(), 44, 20);
+			paddle.setBounds(paddle.getX(), paddle.getY(), 22, 20);
 			contentPane.revalidate();
 			contentPane.repaint();
 			

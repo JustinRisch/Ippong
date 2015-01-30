@@ -11,4 +11,15 @@ public class Brick extends JLabel{
 	public Brick(){
 		this.setText("[==]");
 	}
+	public Brick(int x, int y, int width, int height){
+		this.x=x; 
+		this.y=y;
+		this.setBounds(x, y, width, height);
+		this.setText("[==]");
+	}
+
+	public void move() {
+		this.setLocation((this.getX()+2)%Ippong.contentPane.getWidth(), y);
+		
+	}
 }

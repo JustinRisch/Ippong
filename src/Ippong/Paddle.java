@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 
 @SuppressWarnings("serial")
-public class Paddle extends JLabel{
+public class Paddle extends JLabel {
 	public double speed = 20; 
 	private int x, y;
 	public int getX() {
@@ -35,4 +35,5 @@ public class Paddle extends JLabel{
 		this.revalidate();
 		this.repaint();
 	}
+	
 }
