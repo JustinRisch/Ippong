@@ -1,8 +1,6 @@
 package Ippong;
 
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Insets;
 
 import javax.swing.JRadioButton;
 
@@ -17,10 +15,11 @@ public class Ball extends JRadioButton implements Runnable {
 
 		double width = this.getWidth()-(this.getBounds().intersection(Ippong.jta.getBounds())).getWidth();
 		double height = this.getHeight()-(this.getBounds().intersection(Ippong.jta.getBounds())).getHeight();
-		if (width>0) { 
+		if (width>0) {
 			right*=-1;
 		}
 		if (height > 0) {
+			y+=height;
 			up*=-1;
 		}
 
@@ -84,14 +83,14 @@ public class Ball extends JRadioButton implements Runnable {
 
 	}
 
-	public Ball(Insets insets, Dimension size){
+	public Ball(){
 		x=50; y=150;
 		this.setVisible(true);
 		this.setEnabled(false);
 		this.setSelected(true);
 		this.revalidate();
 		this.repaint();
-		this.setBounds(x+insets.left, y+insets.top, width, height);
+		this.setBounds(x, y, width, height);
 
 	}
 
