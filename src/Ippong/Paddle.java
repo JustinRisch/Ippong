@@ -33,12 +33,11 @@ public class Paddle extends JLabel {
 	public void move(double i) {
 		double temp = x + (speed * i);
 		x = (int) temp;
-		
-		
-		if (x>Ippong.jta.getWidth()-this.getWidth())
-			x=0;
-		else if (x<0) {
-			x=Ippong.jta.getWidth()-this.getWidth();
+
+		if (x > Ippong.jta.getWidth() - this.getWidth())
+			x = 0;
+		else if (x < 0) {
+			x = Ippong.jta.getWidth() - this.getWidth();
 		}
 		this.setBounds(x, y, this.getWidth(), this.getHeight());
 		this.revalidate();

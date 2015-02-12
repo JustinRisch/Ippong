@@ -21,6 +21,6 @@ public class Brick extends JLabel {
 	}
 
 	public void move() {
-		this.setLocation((this.getX() + 2) % Ippong.contentPane.getWidth(), y);
+		this.setLocation((this.getX() + 1) % Ippong.contentPane.getWidth(), y);
 	}
 }
