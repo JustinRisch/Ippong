@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
 public class Paddle extends JLabel {
-	public double speed = 20;
+	public double speed = 15;
 	private int x, y;
 
 	public int getX() {
@@ -35,9 +35,9 @@ public class Paddle extends JLabel {
 		x = (int) temp;
 
 		if (x > Ippong.jta.getWidth() - this.getWidth())
-			x = 0;
-		else if (x < 0) {
 			x = Ippong.jta.getWidth() - this.getWidth();
+		else if (x < 0) {
+			x = 0;
 		}
 		this.setBounds(x, y, this.getWidth(), this.getHeight());
 		this.revalidate();

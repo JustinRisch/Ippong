@@ -98,7 +98,7 @@ public class Ippong extends JFrame {
 		int j = 0;
 		int i = 0;
 		for (int x = 0; x < 15; x++) {
-			bricks.add((new Brick((i * 90) + (45 * (j % 2)), j * 10 + 25, 28,
+			bricks.add((new Brick((i * 90) + (45 * (j % 2)), j * 30 + 25, 28,
 					18)));
 			contentPane.add(bricks.get(x));
 			i++;
