@@ -36,16 +36,18 @@ public class Ball extends JRadioButton implements Runnable {
 		// bounce the ball
 		Rectangle ballBounds = this.getBounds(), eBounds = e.getBounds();
 
-		if (ballBounds.getCenterY() > eBounds.getCenterY())
+		if (ballBounds.getCenterY() > eBounds.getCenterY()) {
 			up = 1;
-		else
+		} else {
 			up = -1;
-		double interX = ballBounds.getMaxX() - eBounds.getMinX(),paddleX = eBounds
+		}
+		double interX = ballBounds.getMaxX() - eBounds.getMinX(), paddleX = eBounds
 				.getWidth() / 2;
 		right = (interX / paddleX) - (1);
 
 		if (e.getClass() == Brick.class) { // if it hit a brick...
 			e.setLocation(-50, -50);
+			Ippong.bricks.remove(e);
 			Ippong.contentPane.remove(e);
 			e = null;
 			speed += .25; // increase the speed of the ball
@@ -90,7 +92,6 @@ public class Ball extends JRadioButton implements Runnable {
 																		 * each
 																		 * that
 																		 * collided
-																		 * ,
 																		 * call
 																		 * the
 																		 * corresponding
