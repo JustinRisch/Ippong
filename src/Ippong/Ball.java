@@ -107,9 +107,8 @@ public class Ball extends JRadioButton implements Runnable {
 
 		if (Ippong.score >= 1)
 			Ippong.bricks.parallelStream()
-					.filter(e -> Optional.ofNullable(e).isPresent())
+					.filter(e -> e!=null)
 					.filter(x -> x.getX() >= 0).forEachOrdered(x -> x.move());
-		;
 
 		this.setBounds(x, y, this.getWidth(), this.getHeight());
 		this.revalidate();
