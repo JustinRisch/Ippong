@@ -69,7 +69,8 @@ public class Ippong extends JFrame {
 		contentPane.add(jta);
 		contentPane.add(ball);
 		contentPane.add(menubar);
-		ControlListener kl = (e) -> { // WOO LAMBDAS!
+
+		this.addKeyListener((ControlListener) e -> { // WOO LAMBDAS!
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_RIGHT:
 				if (!gameOver)
@@ -91,9 +92,7 @@ public class Ippong extends JFrame {
 					gameOver = false;
 				}
 			}
-		};
-
-		this.addKeyListener(kl);
+		});
 		contentPane.add(paddle);
 		int j = 0;
 		int i = 0;

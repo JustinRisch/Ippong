@@ -16,7 +16,7 @@ public class Menu extends JMenuBar {
 		JMenu menu = new JMenu();
 		menu.setText("Paddles");
 		JMenuItem item = new JMenuItem("King of Java");
-		item.addActionListener((e) -> {
+		item.addActionListener(e -> {
 			paddle.setText("");
 			ImageIcon icon = new ImageIcon("images/kingofjava.png");
 			icon.getIconWidth();
@@ -40,7 +40,7 @@ public class Menu extends JMenuBar {
 		});
 		menu.add(item);
 		item = new JMenuItem("(Ippon)");
-		item.addActionListener((e) -> {
+		item.addActionListener(e -> {
 			bricks.forEach(x -> {
 				x.setText("[==]");
 				x.revalidate();
